@@ -4,10 +4,13 @@ const uuid = require("uuid");
 
 class Store {
   readNote() {
-    return fs.readFile("./db/db.json", "utf8");
+    return fs.readFile("db/db.json", (err, data) => {
+      if (err) throw err;
+      console.log(JSON.parse(data));
+    });
   }
   whiteNote(note) {
-    return fs.writeFile("./db/db.json", JSON.stringify(note));
+    return fs.writeFile("db/db.json", JSON.stringify(note));
   }
   getNotes() {
     return this.readNote().then((notes) => {
@@ -26,15 +29,15 @@ class Store {
       alert("Title / Text cannot be empty!");
     }
 
-    const newNote = { title, text, id: uuid.v4() };
+    const newNote = { title, text, id: uuid.v1() };
 
     return this.getNotes()
-      .then(noteArray.push(newNote))
+      .then((notes) => [...notes, newNote])
       .then((updatedNotes) => this.whiteNote(updatedNotes))
       .then(() => newNote);
   }
   removeNote(id) {
-    return this.getNote()
+    return this.getNotes()
       .then((noteArray) => noteArray.filter((note) => note.id !== id))
       .then((updatedNotes) => this.whiteNote(updatedNotes));
   }
