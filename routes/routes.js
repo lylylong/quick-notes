@@ -1,8 +1,8 @@
-// const uuid = require("uuid");
+const uuid = require("uuid");
 
-// let id = uuid.v1();
+let id = uuid.v1();
 
-// console.log(id);
+console.log(id);
 
 const fs = require("fs");
 const path = require("path");

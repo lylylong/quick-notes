@@ -2,7 +2,7 @@
 
 // require Express.js & routes at the top of the file
 const express = require("express");
-require("./routes/routes");
+// require("./routes/routes");
 // const apiRoutes = require("./routes/apiRoutes")(app);
 // const htmlRoutes = require("./routes/htmlRoutes")(app);
 
@@ -45,6 +45,8 @@ app.use(express.static("public"));
 //   // return finished code to post route for response
 //   return body;
 // }
+
+require("./routes/routes")(app);
 
 //// Setting up the server listener
 app.listen(PORT, () => {

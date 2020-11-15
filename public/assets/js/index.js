@@ -1,42 +1,54 @@
+const uuid = require("uuid");
+// let id = uuid.v1();
 let $noteTitle = $(".note-title");
 let $noteText = $(".note-textarea");
 let $saveNoteBtn = $(".save-note");
 let $newNoteBtn = $(".new-note");
 let $noteList = $(".list-container .list-group");
 
+// Show an element
+const show = (elem) => {
+  elem.style.display = "inline";
+};
+
+// Hide an element
+const hide = (elem) => {
+  elem.style.display = "none";
+};
+
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
 
-const getNotes = () =>
-  fetch("/api/notes", {
+// A function for getting all notes from the db
+const getNotes = function () {
+  return $.ajax({
+    url: "/api/notes",
     method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
   });
+};
 
-const saveNote = (note) =>
-  fetch("/api/notes", {
+// A function for saving a note to the db
+const saveNote = function (note) {
+  return $.ajax({
+    url: "/api/notes",
+    data: note,
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(note),
   });
+};
 
-const deleteNote = (id) =>
-  fetch(`/api/notes/${id}`, {
+// A function for deleting a note from the db
+const deleteNote = function (id) {
+  return $.ajax({
+    url: "api/notes/" + id,
     method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
   });
+};
 
 // If there is an activeNote, display it, otherwise render empty inputs
 let renderActiveNote = function () {
   $saveNoteBtn.hide();
 
-  if (typeof activeNote.id === "number") {
+  if (typeof activeNote.id === "string") {
     $noteTitle.attr("readonly", true);
     $noteText.attr("readonly", true);
     $noteTitle.val(activeNote.title);
@@ -54,6 +66,7 @@ let handleNoteSave = function () {
   let newNote = {
     title: $noteTitle.val(),
     text: $noteText.val(),
+    id: uuid.v1(),
   };
 
   saveNote(newNote);
