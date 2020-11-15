@@ -1,4 +1,5 @@
-const uuid = require("uuid");
+import { v4 as uuidv4 } from "uuid";
+uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
 // let id = uuid.v1();
 let $noteTitle = $(".note-title");
 let $noteText = $(".note-textarea");
@@ -66,7 +67,7 @@ let handleNoteSave = function () {
   let newNote = {
     title: $noteTitle.val(),
     text: $noteText.val(),
-    id: uuid.v1(),
+    id: uuidv4(),
   };
 
   saveNote(newNote);
