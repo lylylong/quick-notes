@@ -1,16 +1,17 @@
 const fs = require("fs");
+const util = require("util");
 
 const uuid = require("uuid");
 
+const readFileAsync = util.promisify(fs.readFile);
+const writeFileAsync = util.promisify(fs.writeFile);
+
 class Store {
   readNote() {
-    return fs.readFile("db/db.json", (err, data) => {
-      if (err) throw err;
-      console.log(JSON.parse(data));
-    });
+    return readFileAsync("db/db.json", "utf8");
   }
   whiteNote(note) {
-    return fs.writeFile("db/db.json", JSON.stringify(note));
+    return writeFileAsync("db/db.json", JSON.stringify(note));
   }
   getNotes() {
     return this.readNote().then((notes) => {
@@ -23,7 +24,7 @@ class Store {
       return parseNote;
     });
   }
-  addNote() {
+  addNote(note) {
     const { title, text } = note;
     if (!title || !text) {
       alert("Title / Text cannot be empty!");
