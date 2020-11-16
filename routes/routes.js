@@ -1,86 +1,55 @@
-const uuid = require("uuid");
-
-const store = require("../db/store");
-
-// let id = uuid.v1();
-
-// console.log(id);
-
 const fs = require("fs");
 const path = require("path");
+const uuid = require("uuid");
 
 module.exports = (app) => {
-  // Setup notes variable
+  // read & parse db json
   fs.readFile("db/db.json", "utf8", (err, data) => {
     if (err) throw err;
-
     let notes = JSON.parse(data);
 
-    // API ROUTES
-    // ========================================================
-
-    // Setup the /notes get route
+    // Setup the get route
     app.get("/api/notes", function (req, res) {
-      // Read the db.json file and return all saved notes as JSON.
-      store
-        .getNotes()
-        .then((note) => {
-          return res.json(notes);
-        })
-        .catch((err) => res.status(500).json(err));
+      res.json(notes);
     });
 
-    // Setup the /notes post route
+    // Setup the post route
     app.post("/api/notes", function (req, res) {
-      // Receives a new note, adds it to db.json, then returns the new note
-      //   let newNote = { title, test, id: uuidv1() };
+      // Add uuid to every new note, save to db.json
       //   console.log(req.body);
-      store
-        .addNote(req.body)
-        .then((note) => res.json(note))
-        .catch((err) => res.status(500).json(err));
-
-      updateDb();
-      //   notes.push(newNote);
-      //   updateDb();
-      //   return console.log("Added new note: " + newNote.title);
+      let newId = { id: uuid.v1() };
+      let newNote = req.body;
+      Object.assign(newNote, newId);
+      console.log(newNote);
+      notes.push(newNote);
+      updateDbJson();
+      console.log("New note: " + newNote.title);
     });
 
-    // Retrieves a note with specific id
+    // retrieves a note with its uuid
     app.get("/api/notes/:id", function (req, res) {
-      // display json for the notes array indices of the provided id
       res.json(notes[req.params.id]);
     });
 
-    // Deletes a note with specific id
+    // deletes a note with its uuid
     app.delete("/api/notes/:id", function (req, res) {
-      //   notes.splice(req.params.id, 1);
-      //   updateDb();
-      //   console.log("Deleted note with id " + req.params.id);
-      store
-        .removeNote(req.params.id)
-        .then(() => {
-          res.json({ ok: true });
-        })
-        .catch((err) => res.status(500).json(err));
-      updateDb();
+      notes.splice(req.params.id, 1);
+      updateDbJson();
+      console.log("You deleted a note");
     });
 
-    // VIEW ROUTES
-    // ========================================================
-
-    // Display notes.html when /notes is accessed
+    // display notes.html
     app.get("/notes", function (req, res) {
       res.sendFile(path.join(__dirname, "../public/notes.html"));
     });
 
-    // Display index.html when all other routes are accessed
+    // display index.html when all other routes are accessed
     app.get("*", function (req, res) {
       res.sendFile(path.join(__dirname, "../public/index.html"));
     });
 
-    //updates the json file whenever a note is added or deleted
-    function updateDb() {
+    //updates the database json
+    function updateDbJson() {
       fs.writeFile("db/db.json", JSON.stringify(notes, "\t"), (err) => {
         if (err) throw err;
         return true;
