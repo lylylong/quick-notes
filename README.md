@@ -10,7 +10,16 @@
 
 4. When the user clicks on an existing note title in the left-hand column, that note appears in the right-hand column. If the user clicks on the write icon in the navigation at the top of the page, an empty fields will showup, the user can enter a new note title and the note’s text in the right-hand column.
 
+Website URL
+https://quick-notes-2020.herokuapp.com/
+
+GitHub URL
+https://github.com/lylylong/quick-notes.git
+
 ## Screenshot
+
+This gif will show the user process:
+![quick-notes](https://user-images.githubusercontent.com/70302749/99214276-b7af4d80-279d-11eb-86ad-691ac96668bd.gif)
 
 ## Installation
 
