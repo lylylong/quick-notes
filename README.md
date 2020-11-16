@@ -20,8 +20,10 @@ https://github.com/lylylong/quick-notes.git
 
 ## Screenshot
 
-This gif will show the user process:
+This GIFs will show the user process:
 ![quick-notes](https://user-images.githubusercontent.com/70302749/99214276-b7af4d80-279d-11eb-86ad-691ac96668bd.gif)
+![quick-notes 2](https://user-images.githubusercontent.com/70302749/99215189-373e1c00-27a0-11eb-8c1d-7c485970f25c.gif)
+![quick-notes 3](https://user-images.githubusercontent.com/70302749/99215197-3ad1a300-27a0-11eb-9965-5efe15c9eb3c.gif)
 
 ## Installation
 
